@@ -3,7 +3,7 @@
 all: deps fmt .git/hooks/pre-commit test terraform-provider-zipfile
 
 fmt:
-	go fmt ./...
+	go fmt $$(glide novendor)
 
 clean:
 	rm -f terraform-provider-zip
