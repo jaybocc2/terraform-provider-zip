@@ -1,3 +1,7 @@
+# generated binaries
+terraform-provider-zip
+# glide lock
+glide.lock
 # Compiled Object files, Static and Dynamic libs (Shared Objects)
 *.o
 *.a
