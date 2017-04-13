@@ -1,7 +1,7 @@
 package: github.com/jaybocc2/terraform-provider-zip
 import:
 - package: github.com/hashicorp/terraform
-  version: ~0.7.3
+  version: ~0.8.5
   subpackages:
   - helper/pathorcontents
   - helper/schema
