@@ -3,6 +3,7 @@ package zipfile
 import (
 	"archive/zip"
 	"bytes"
+	"crypto/sha256"
 	"crypto/sha512"
 	"encoding/hex"
 	"fmt"
@@ -27,6 +28,11 @@ func dataSourceZip() *schema.Resource {
 				Computed:    true,
 				Description: "generate the zipfile",
 			},
+			"sha256": &schema.Schema{
+				Type:        schema.TypeString,
+				Computed:    true,
+				Description: "sha256 of the generated zipfile",
+			},
 		},
 	}
 }
@@ -38,6 +44,7 @@ func dataSourceZipRead(d *schema.ResourceData, meta interface{}) error {
 	}
 
 	d.Set("generated", generated)
+	d.Set("sha256", hash256(generated))
 	d.SetId(hash(generated))
 	return nil
 }
@@ -75,6 +82,11 @@ func zipFiles(d *schema.ResourceData) (string, error) {
 
 func hash(s string) string {
 	sha := sha512.Sum512([]byte(s))
+	return hex.EncodeToString(sha[:])
+}
+
+func hash256(s string) string {
+	sha := sha256.Sum256([]byte(s))
 	return hex.EncodeToString(sha[:])
 }
 
