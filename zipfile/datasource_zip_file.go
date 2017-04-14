@@ -3,6 +3,7 @@ package zipfile
 import (
 	"archive/zip"
 	"bytes"
+	"crypto/md5"
 	"crypto/sha256"
 	"crypto/sha512"
 	"encoding/hex"
@@ -33,6 +34,11 @@ func dataSourceZip() *schema.Resource {
 				Computed:    true,
 				Description: "sha256 of the generated zipfile",
 			},
+			"md5": &schema.Schema{
+				Type:        schema.TypeString,
+				Computed:    true,
+				Description: "md5 of the generated zipfile",
+			},
 		},
 	}
 }
@@ -45,6 +51,7 @@ func dataSourceZipRead(d *schema.ResourceData, meta interface{}) error {
 
 	d.Set("generated", generated)
 	d.Set("sha256", hash256(generated))
+	d.Set("md5", hashMd5(generated))
 	d.SetId(hash(generated))
 	return nil
 }
@@ -88,6 +95,11 @@ func hash(s string) string {
 func hash256(s string) string {
 	sha := sha256.Sum256([]byte(s))
 	return hex.EncodeToString(sha[:])
+}
+
+func hashMd5(s string) string {
+	mdsum := md5.Sum([]byte(s))
+	return hex.EncodeToString(mdsum[:])
 }
 
 func validateFilesAttribute(i interface{}, key string) (ws []string, es []error) {
