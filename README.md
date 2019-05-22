@@ -1,3 +1,25 @@
+# Please use terraform's archive_file provider
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
+.
+
 # using terraform-provider-zip
 
 ```
